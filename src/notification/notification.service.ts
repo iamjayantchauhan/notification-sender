@@ -11,9 +11,10 @@ export class NotificationService {
   ) {}
 
   getNotifications(): string {
-    console.log("--->>");
-    console.log(this.config.get("port"));
+    this.logger.info("notification");
     this.logger.error("notification");
+    this.logger.debug("notification");
+    this.logger.warn("notification");
     return "Hello World!";
   }
 }

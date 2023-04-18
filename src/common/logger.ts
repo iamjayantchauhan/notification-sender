@@ -7,6 +7,7 @@ import * as CloudWatchTransport from "winston-cloudwatch";
 
 dotenv.config();
 
+// define the custom settings for each transport (file, console)
 const options = {
   errorFile: {
     level: "error",
@@ -36,7 +37,6 @@ const options = {
     silent: false,
   },
 };
-
 export class LoggerConfig {
   private readonly options: winston.LoggerOptions;
   private localTransports = [
@@ -49,8 +49,8 @@ export class LoggerConfig {
     new CloudWatchTransport({
       logGroupName: process.env.CLOUDWATCH_GROUP_NAME,
       logStreamName: process.env.CLOUDWATCH_STREAM_NAME,
-      awsAccessKeyId: process.env.AWS_ACCESS_KEY,
-      awsSecretKey: process.env.AWS_SECRET_KEY,
+      awsAccessKeyId: process.env.AWS_ACCESS_KEY_ID,
+      awsSecretKey: process.env.AWS_SECRET_ACCESS_KEY,
       awsRegion: process.env.AWS_REGION,
       name: "Cloudwatch Logs",
       messageFormatter: function (item) {
