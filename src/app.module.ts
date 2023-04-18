@@ -5,10 +5,13 @@ import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
 import { LoggerConfig } from "./common/logger";
 import configuration from "./config/configuration";
+import HealthController from "./health/health.controller";
+import DatabaseModule from "./mongodb/database.module";
 import { NotificationController } from "./notification/notification.controller";
-import { NotificationService } from "./notification/notification.service";
+import { NotificationModule } from "./notification/notification.module";
 import { UserController } from "./user/user.controller";
-import { UserService } from "./user/user.service";
+import { UserModule } from "./user/user.module";
+import { TerminusModule } from "@nestjs/terminus";
 
 const logger: LoggerConfig = new LoggerConfig();
 const envFilePath = process.env.NODE_ENV == "test" ? ".env.test" : ".env";
@@ -20,11 +23,20 @@ const imports = [
     envFilePath: envFilePath,
   }),
   WinstonModule.forRoot(logger.opts()),
+  DatabaseModule.forRoot(),
+  TerminusModule,
+  UserModule,
+  NotificationModule,
 ];
 
-const controllers = [AppController, NotificationController, UserController];
+const controllers = [
+  AppController,
+  NotificationController,
+  UserController,
+  HealthController,
+];
 
-const providers = [AppService, NotificationService, UserService];
+const providers = [AppService];
 
 @Module({
   imports: imports,

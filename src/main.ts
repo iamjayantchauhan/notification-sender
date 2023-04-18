@@ -1,9 +1,9 @@
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
-import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { WinstonModule } from "nest-winston";
 import { AppModule } from "./app.module";
 import { LoggerConfig } from "./common/logger";
+import { swagger } from "./common/swagger";
 
 const logger: LoggerConfig = new LoggerConfig();
 
@@ -15,15 +15,7 @@ async function bootstrap() {
     app.useLogger(WinstonModule.createLogger(logger.opts()));
   }
 
-  // Swagger configurations
-  const swaggerConfig = new DocumentBuilder()
-    .setTitle("Notification Sender")
-    .setDescription("The application for sending notification to users")
-    .setVersion("1.0")
-    .addTag("notification")
-    .build();
-  const document = SwaggerModule.createDocument(app, swaggerConfig);
-  SwaggerModule.setup("api", app, document);
+  swagger(app);
 
   await app.listen(config.get("port"));
 }

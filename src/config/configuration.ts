@@ -2,6 +2,7 @@ export default () => ({
   port: parseInt(process.env.PORT),
   environment_name: process.env.NODE_ENV,
   api_version: process.env.API_VERSION,
+  database: process.env.DATABASE_URL,
   aws: {
     cloudWatch_group_name: process.env.CLOUDWATCH_GROUP_NAME,
     cloudWatch_stream_name: process.env.CLOUDWATCH_STREAM_NAME,
