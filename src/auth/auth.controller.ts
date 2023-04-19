@@ -24,7 +24,7 @@ export class AuthController {
   @ApiOkResponse({ description: RESPONSE_MESSAGES.auth.success })
   @ApiOperation({ summary: "Login to application" })
   @ApiUnauthorizedResponse({
-    description: RESPONSE_MESSAGES.auth.tokenExpired,
+    description: RESPONSE_MESSAGES.common.unauthorized,
   })
   @ApiBadRequestResponse({ description: RESPONSE_MESSAGES.auth.notMatching })
   async login(

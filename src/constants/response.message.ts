@@ -1,4 +1,7 @@
 export const RESPONSE_MESSAGES = {
+  common: {
+    unauthorized: "Unauthorized",
+  },
   user: {
     create: "User created successfully",
     remove: "User removed successfully",
@@ -12,5 +15,15 @@ export const RESPONSE_MESSAGES = {
       "Missing authentication, Please add token in Authorization header",
     tokenExpired: "Unauthorized",
     notMatching: "Credentials are not matching",
+  },
+  notification: {
+    list: {
+      success: "Notifications retrieved successfully",
+      fail: "Notification retrieval failed",
+    },
+    create: {
+      success: "Notifications created successfully",
+      fail: "Notification created failed",
+    },
   },
 };

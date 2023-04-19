@@ -1,12 +1,7 @@
 import { Controller, Get } from "@nestjs/common";
-import { AppService } from "./app.service";
-import {
-  ApiOkResponse,
-  ApiOperation,
-  ApiResponse,
-  ApiTags,
-} from "@nestjs/swagger";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { StatusCodes } from "http-status-codes";
+import { AppService } from "./app.service";
 
 @Controller()
 @ApiTags("Version")

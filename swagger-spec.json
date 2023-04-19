@@ -10,11 +10,27 @@
         "tags": ["Version"]
       }
     },
-    "/notifications": {
+    "/notification": {
       "get": {
-        "operationId": "NotificationController_getHello",
+        "operationId": "NotificationController_getNotifications",
+        "summary": "Retrieve list of notifications",
         "parameters": [],
-        "responses": { "200": { "description": "" } },
+        "responses": { "401": { "description": "Unauthorized" } },
+        "tags": ["Notification"]
+      },
+      "post": {
+        "operationId": "NotificationController_createNotification",
+        "summary": "Create notification",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/NotificationDTO" }
+            }
+          }
+        },
+        "responses": { "401": { "description": "Unauthorized" } },
         "tags": ["Notification"]
       }
     },
@@ -175,6 +191,18 @@
   "servers": [],
   "components": {
     "schemas": {
+      "NotificationDTO": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "description": "Email address of user" },
+          "notifications": {
+            "description": "User notifications",
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["email", "notifications"]
+      },
       "UserDTO": {
         "type": "object",
         "properties": {

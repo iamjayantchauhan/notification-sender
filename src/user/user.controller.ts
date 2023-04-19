@@ -9,10 +9,10 @@ import { UserService } from "./user.service";
 
 @ApiTags("User")
 @Controller("user")
+@UseGuards(JwtAuthGuard)
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Get()
   @ApiOperation({ summary: "Retrieve all users" })
   @ApiResponse({
@@ -38,7 +38,6 @@ export class UserController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get("/:id")
   @ApiOperation({ summary: "Get single user" })
   async getUser(@Res() response: Response, @Param("id") userId: string) {
@@ -60,7 +59,6 @@ export class UserController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Delete("/:id")
   @ApiOperation({ summary: "Delete single user" })
   async deleteUser(@Res() response: Response, @Param("id") userId: string) {
