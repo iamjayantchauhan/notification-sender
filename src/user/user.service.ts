@@ -1,11 +1,11 @@
 import { Inject, Injectable, NotFoundException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { WINSTON_MODULE_PROVIDER } from "nest-winston";
-import { Logger } from "winston";
-import { User } from "./schema/user.schema";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
+import { WINSTON_MODULE_PROVIDER } from "nest-winston";
+import { Logger } from "winston";
 import { UserDTO } from "./dto/user.dto";
+import { User } from "./schema/user.schema";
 
 @Injectable()
 export class UserService {
@@ -45,6 +45,18 @@ export class UserService {
     const singleUser = await this.userModel.findById(userId);
     if (!singleUser) {
       const message = `User for #${userId} not found`;
+      this.logger.error(message);
+      throw new NotFoundException(message);
+    }
+    return singleUser;
+  }
+
+  async getUserByEmail(email: string): Promise<User> {
+    const singleUser = await this.userModel.findOne({
+      emailAddress: email,
+    });
+    if (!singleUser) {
+      const message = `User for #${email} not found`;
       this.logger.error(message);
       throw new NotFoundException(message);
     }

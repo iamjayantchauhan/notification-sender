@@ -1,43 +1,16 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Res,
-} from "@nestjs/common";
+import { Controller, Delete, Get, Param, Res, UseGuards } from "@nestjs/common";
 import { Response } from "express";
 import { StatusCodes } from "http-status-codes";
+import { JwtAuthGuard } from "../auth/jwt.authguard";
 import { RESPONSE_MESSAGES } from "../constants/response.message";
 import { responseGenerator } from "../utils/common.utils";
-import { UserDTO } from "./dto/user.dto";
 import { UserService } from "./user.service";
 
 @Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  async createUser(@Res() response: Response, @Body() userDTO: UserDTO) {
-    try {
-      const userData = await this.userService.createUser(userDTO);
-      return responseGenerator(
-        response,
-        StatusCodes.OK,
-        RESPONSE_MESSAGES.user.create,
-        userData
-      );
-    } catch (exception) {
-      return responseGenerator(
-        response,
-        exception.status,
-        RESPONSE_MESSAGES.user.failed,
-        exception.response
-      );
-    }
-  }
-
+  @UseGuards(JwtAuthGuard)
   @Get()
   async getAllUsers(@Res() response: Response) {
     try {
@@ -58,6 +31,7 @@ export class UserController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Get("/:id")
   async getUser(@Res() response: Response, @Param("id") userId: string) {
     try {
@@ -78,6 +52,7 @@ export class UserController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete("/:id")
   async deleteUser(@Res() response: Response, @Param("id") userId: string) {
     try {

@@ -6,4 +6,9 @@ export const RESPONSE_MESSAGES = {
     single: "User retrieved successfully",
     failed: "User operation failed",
   },
+  auth: {
+    missingToken:
+      "Missing authentication, Please add token in Authorization header",
+    tokenExpired: "Token validation failed",
+  },
 };

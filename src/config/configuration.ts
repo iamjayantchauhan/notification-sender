@@ -3,6 +3,8 @@ export default () => ({
   environment_name: process.env.NODE_ENV,
   api_version: process.env.API_VERSION,
   database: process.env.DATABASE_URL,
+  jwt_secret: process.env.JWT_SECRET,
+  jwt_expiry: process.env.JWT_EXP,
   aws: {
     cloudWatch_group_name: process.env.CLOUDWATCH_GROUP_NAME,
     cloudWatch_stream_name: process.env.CLOUDWATCH_STREAM_NAME,

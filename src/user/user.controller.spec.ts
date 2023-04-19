@@ -15,7 +15,6 @@ const logger: LoggerConfig = new LoggerConfig();
 const envFilePath = process.env.NODE_ENV == "test" ? ".env.test" : ".env";
 
 describe("UserController", () => {
-  let userController: UserController;
   let userService: UserService;
 
   beforeEach(async () => {
@@ -36,7 +35,6 @@ describe("UserController", () => {
       exports: [UserService],
     }).compile();
 
-    userController = app.get<UserController>(UserController);
     userService = app.get<UserService>(UserService);
   });
 

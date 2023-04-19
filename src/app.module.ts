@@ -12,6 +12,7 @@ import { NotificationModule } from "./notification/notification.module";
 import { UserController } from "./user/user.controller";
 import { UserModule } from "./user/user.module";
 import { TerminusModule } from "@nestjs/terminus";
+import { AuthModule } from "./auth/auth.module";
 
 const logger: LoggerConfig = new LoggerConfig();
 const envFilePath = process.env.NODE_ENV == "test" ? ".env.test" : ".env";
@@ -27,6 +28,7 @@ const imports = [
   TerminusModule,
   UserModule,
   NotificationModule,
+  AuthModule,
 ];
 
 const controllers = [
