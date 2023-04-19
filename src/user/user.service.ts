@@ -24,11 +24,7 @@ export class UserService {
   }
 
   async getAllUsers(): Promise<User[]> {
-    const usersData = await this.userModel.find();
-    if (!usersData || usersData.length == 0) {
-      throw new NotFoundException("Users data not found!");
-    }
-    return usersData;
+    return this.userModel.find();
   }
 
   async deleteUser(userId: string): Promise<User> {
@@ -39,6 +35,10 @@ export class UserService {
       throw new NotFoundException(message);
     }
     return deletedUser;
+  }
+
+  async deleteUserByEmail(email: string) {
+    await this.userModel.findOneAndRemove({ emailAddress: email });
   }
 
   async getUser(userId: string): Promise<User> {
