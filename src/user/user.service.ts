@@ -40,4 +40,14 @@ export class UserService {
     }
     return deletedUser;
   }
+
+  async getUser(userId: string): Promise<User> {
+    const singleUser = await this.userModel.findById(userId);
+    if (!singleUser) {
+      const message = `User for #${userId} not found`;
+      this.logger.error(message);
+      throw new NotFoundException(message);
+    }
+    return singleUser;
+  }
 }

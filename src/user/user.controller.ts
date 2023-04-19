@@ -39,7 +39,7 @@ export class UserController {
   }
 
   @Get()
-  async deleteUser(@Res() response: Response) {
+  async getAllUsers(@Res() response: Response) {
     try {
       const userData = await this.userService.getAllUsers();
       return responseGenerator(
@@ -58,8 +58,28 @@ export class UserController {
     }
   }
 
+  @Get("/:id")
+  async getUser(@Res() response: Response, @Param("id") userId: string) {
+    try {
+      const userData = await this.userService.getUser(userId);
+      return responseGenerator(
+        response,
+        StatusCodes.OK,
+        RESPONSE_MESSAGES.user.single,
+        userData
+      );
+    } catch (exception) {
+      return responseGenerator(
+        response,
+        exception.status,
+        RESPONSE_MESSAGES.user.failed,
+        exception.response
+      );
+    }
+  }
+
   @Delete("/:id")
-  async getAllUsers(@Res() response: Response, @Param("id") userId: string) {
+  async deleteUser(@Res() response: Response, @Param("id") userId: string) {
     try {
       const userData = await this.userService.deleteUser(userId);
       return responseGenerator(
