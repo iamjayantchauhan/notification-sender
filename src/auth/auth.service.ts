@@ -1,9 +1,12 @@
-import { Inject, Injectable, Logger } from "@nestjs/common";
+import { HttpException, Inject, Injectable, Logger } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtService } from "@nestjs/jwt";
 import { WINSTON_MODULE_PROVIDER } from "nest-winston";
 import { UserDTO } from "../user/dto/user.dto";
 import { UserService } from "../user/user.service";
+import * as bcrypt from "bcrypt";
+import { StatusCodes } from "http-status-codes";
+import { RESPONSE_MESSAGES } from "../constants/response.message";
 
 @Injectable()
 export class AuthService {
@@ -16,7 +19,7 @@ export class AuthService {
 
   /**
    * Generate token without encryption
-   * @param emailAddress User email
+   * @param {string} emailAddress User email
    * @returns Token information
    */
   private async generateToken(emailAddress: string): Promise<string> {
@@ -41,7 +44,17 @@ export class AuthService {
     }
   }
 
-  async login(user: UserDTO) {
+  async login(user: UserDTO): Promise<Record<string, any>> {
+    const dbUser = await this.userService.getUserByEmail(user?.email);
+    const match = await bcrypt.compare(user.password, dbUser.password);
+
+    if (!match) {
+      throw new HttpException(
+        RESPONSE_MESSAGES.auth.notMatching,
+        StatusCodes.BAD_REQUEST
+      );
+    }
+
     const token = await this.generateToken(user?.email);
     return {
       accessToken: token,
@@ -55,7 +68,7 @@ export class AuthService {
       this.logger.error(message);
       return null;
     }
-    const token = this.generateToken(user?.email);
+    const token = await this.generateToken(user?.email);
     return {
       accessToken: token,
     };

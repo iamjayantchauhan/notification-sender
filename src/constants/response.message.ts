@@ -10,5 +10,6 @@ export const RESPONSE_MESSAGES = {
     missingToken:
       "Missing authentication, Please add token in Authorization header",
     tokenExpired: "Token validation failed",
+    notMatching: "Credentials are not matching",
   },
 };

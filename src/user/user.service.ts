@@ -6,6 +6,7 @@ import { WINSTON_MODULE_PROVIDER } from "nest-winston";
 import { Logger } from "winston";
 import { UserDTO } from "./dto/user.dto";
 import { User } from "./schema/user.schema";
+import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class UserService {
@@ -16,10 +17,13 @@ export class UserService {
   ) {}
 
   async createUser(user: UserDTO): Promise<User> {
+    const salt = await bcrypt.genSalt();
+    const hashPassword = await bcrypt.hash(user.password, salt);
     const newUser = new this.userModel({
       emailAddress: user?.email,
-      password: user?.password,
+      password: hashPassword,
     });
+
     return newUser.save();
   }
 
