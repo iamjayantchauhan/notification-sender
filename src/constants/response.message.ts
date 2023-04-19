@@ -7,9 +7,10 @@ export const RESPONSE_MESSAGES = {
     failed: "User operation failed",
   },
   auth: {
+    success: "Authenticated successfully",
     missingToken:
       "Missing authentication, Please add token in Authorization header",
-    tokenExpired: "Token validation failed",
+    tokenExpired: "Unauthorized",
     notMatching: "Credentials are not matching",
   },
 };

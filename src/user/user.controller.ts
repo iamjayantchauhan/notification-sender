@@ -1,4 +1,5 @@
 import { Controller, Delete, Get, Param, Res, UseGuards } from "@nestjs/common";
+import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { Response } from "express";
 import { StatusCodes } from "http-status-codes";
 import { JwtAuthGuard } from "../auth/jwt.authguard";
@@ -6,12 +7,18 @@ import { RESPONSE_MESSAGES } from "../constants/response.message";
 import { responseGenerator } from "../utils/common.utils";
 import { UserService } from "./user.service";
 
+@ApiTags("User")
 @Controller("user")
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @UseGuards(JwtAuthGuard)
   @Get()
+  @ApiOperation({ summary: "Retrieve all users" })
+  @ApiResponse({
+    status: StatusCodes.OK,
+    description: RESPONSE_MESSAGES.user.list,
+  })
   async getAllUsers(@Res() response: Response) {
     try {
       const userData = await this.userService.getAllUsers();
@@ -33,6 +40,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get("/:id")
+  @ApiOperation({ summary: "Get single user" })
   async getUser(@Res() response: Response, @Param("id") userId: string) {
     try {
       const userData = await this.userService.getUser(userId);
@@ -54,6 +62,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Delete("/:id")
+  @ApiOperation({ summary: "Delete single user" })
   async deleteUser(@Res() response: Response, @Param("id") userId: string) {
     try {
       const userData = await this.userService.deleteUser(userId);

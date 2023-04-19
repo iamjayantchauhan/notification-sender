@@ -1,4 +1,5 @@
 import { Controller, Get } from "@nestjs/common";
+import { ApiOkResponse, ApiOperation, ApiTags } from "@nestjs/swagger";
 import {
   HealthCheckService,
   HealthCheck,
@@ -6,6 +7,7 @@ import {
 } from "@nestjs/terminus";
 
 @Controller("health")
+@ApiTags("Health")
 export default class HealthController {
   constructor(
     private health: HealthCheckService,
@@ -13,6 +15,8 @@ export default class HealthController {
   ) {}
 
   @Get()
+  @ApiOkResponse({ description: "API Health Check" })
+  @ApiOperation({ summary: "Check health of the application" })
   @HealthCheck()
   check() {
     return this.health.check([() => this.db.pingCheck("mongodb")]);
