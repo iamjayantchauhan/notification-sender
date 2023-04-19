@@ -16,15 +16,19 @@ export class NotificationService {
     private notificationModel: Model<Notification>
   ) {}
 
-  getNotifications(): Promise<Notification[]> {
+  async getNotifications(): Promise<Notification[]> {
     return this.notificationModel.find();
   }
 
-  createNotification(notificationDTO: NotificationDTO) {
+  async createNotification(notificationDTO: NotificationDTO) {
     const notificationModel = new this.notificationModel({
       emailAddress: notificationDTO.email,
       notifications: notificationDTO.notifications,
     });
     return notificationModel.save();
+  }
+
+  async deleteNotification(email: string) {
+    await this.notificationModel.findOneAndRemove({ emailAddress: email });
   }
 }
