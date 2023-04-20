@@ -1,0 +1,216 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getVersion",
+        "summary": "Check version of the application",
+        "parameters": [],
+        "responses": { "200": { "description": "Retrieve version of API" } },
+        "tags": ["Version"]
+      }
+    },
+    "/notification": {
+      "get": {
+        "operationId": "NotificationController_getNotifications",
+        "summary": "Retrieve list of notifications",
+        "parameters": [],
+        "responses": { "401": { "description": "Unauthorized" } },
+        "tags": ["Notification"]
+      },
+      "post": {
+        "operationId": "NotificationController_createNotification",
+        "summary": "Create notification",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/NotificationDTO" }
+            }
+          }
+        },
+        "responses": { "401": { "description": "Unauthorized" } },
+        "tags": ["Notification"]
+      }
+    },
+    "/user": {
+      "get": {
+        "operationId": "UserController_getAllUsers",
+        "summary": "Retrieve all users",
+        "parameters": [],
+        "responses": {
+          "200": { "description": "Users retrieved successfully" }
+        },
+        "tags": ["User"]
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "operationId": "UserController_getUser",
+        "summary": "Get single user",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"]
+      },
+      "delete": {
+        "operationId": "UserController_deleteUser",
+        "summary": "Delete single user",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": { "200": { "description": "" } },
+        "tags": ["User"]
+      }
+    },
+    "/health": {
+      "get": {
+        "operationId": "HealthController_check",
+        "summary": "Check health of the application",
+        "parameters": [],
+        "responses": {
+          "200": { "description": "API Health Check" },
+          "503": {
+            "description": "The Health Check is not successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string", "example": "error" },
+                    "info": {
+                      "type": "object",
+                      "example": { "database": { "status": "up" } },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": { "status": { "type": "string" } },
+                        "additionalProperties": { "type": "string" }
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": { "status": { "type": "string" } },
+                        "additionalProperties": { "type": "string" }
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": { "status": "up" },
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": { "status": { "type": "string" } },
+                        "additionalProperties": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Health"]
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "operationId": "AuthController_login",
+        "summary": "Login to application",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserDTO" }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Authenticated successfully" },
+          "400": { "description": "Credentials are not matching" },
+          "401": { "description": "Unauthorized" }
+        },
+        "tags": ["Auth"]
+      }
+    },
+    "/auth/signup": {
+      "post": {
+        "operationId": "AuthController_signUpUser",
+        "summary": "Signup for application",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/UserDTO" }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "User created successfully" },
+          "403": { "description": "User operation failed" }
+        },
+        "tags": ["Auth"]
+      }
+    }
+  },
+  "info": {
+    "title": "Notification Sender",
+    "description": "The application for sending notification to users",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "NotificationDTO": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "description": "Email address of user" },
+          "notifications": {
+            "description": "User notifications",
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        "required": ["email", "notifications"]
+      },
+      "UserDTO": {
+        "type": "object",
+        "properties": {
+          "email": { "type": "string", "description": "Email address of user" },
+          "password": { "type": "string", "description": "Password of user" }
+        },
+        "required": ["email", "password"]
+      }
+    }
+  }
+}
