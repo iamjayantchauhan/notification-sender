@@ -13,12 +13,12 @@ import { JwtAuthGuard } from "../auth/jwt.authguard";
 import { NotificationDTO } from "./dto/notification.dto";
 
 @ApiTags("Notification")
-@Controller("notification")
+@Controller()
 @UseGuards(JwtAuthGuard)
 export class NotificationController {
   constructor(private readonly notificationService: NotificationService) {}
 
-  @Get()
+  @Get("messages")
   @ApiOperation({ summary: "Retrieve list of notifications" })
   @ApiUnauthorizedResponse({
     description: RESPONSE_MESSAGES.common.unauthorized,
@@ -43,7 +43,7 @@ export class NotificationController {
     }
   }
 
-  @Post()
+  @Post("add-notification")
   @ApiOperation({ summary: "Create notification" })
   @ApiUnauthorizedResponse({
     description: RESPONSE_MESSAGES.common.unauthorized,
