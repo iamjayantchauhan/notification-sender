@@ -33,6 +33,11 @@ export class AuthService {
     return accessToken;
   }
 
+  /**
+   * Verify JWT token
+   * @param {string} token JWT Token
+   * @returns {Promise<Record<string, any> | null>}
+   */
   async verifyToken(token: string): Promise<Record<string, any> | null> {
     try {
       return await this.jwtService.verifyAsync(token, {
@@ -44,6 +49,11 @@ export class AuthService {
     }
   }
 
+  /**
+   * Login to the application
+   * @param {UserDTO} user User DTO
+   * @returns {Promise<Record<string, any>>} Access Token
+   */
   async login(user: UserDTO): Promise<Record<string, any>> {
     const dbUser = await this.userService.getUserByEmail(user?.email);
     const match = await bcrypt.compare(user.password, dbUser.password);
@@ -61,6 +71,11 @@ export class AuthService {
     };
   }
 
+  /**
+   * Signup User
+   * @param {UserDTO} user User DTO
+   * @returns {Promise<Record<string, any>>} Access Token
+   */
   async signUpUser(user: UserDTO): Promise<Record<string, any>> {
     const userResponse = await this.userService.createUser(user);
     if (!userResponse) {

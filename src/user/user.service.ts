@@ -16,6 +16,11 @@ export class UserService {
     private readonly config: ConfigService
   ) {}
 
+  /**
+   * Create user
+   * @param {UserDTO} user User DTO
+   * @returns {Promise<User>}
+   */
   async createUser(user: UserDTO): Promise<User> {
     const salt = await bcrypt.genSalt();
     const hashPassword = await bcrypt.hash(user.password, salt);
@@ -27,10 +32,19 @@ export class UserService {
     return newUser.save();
   }
 
+  /**
+   * Get all users
+   * @returns {Promise<User[]>}
+   */
   async getAllUsers(): Promise<User[]> {
     return this.userModel.find();
   }
 
+  /**
+   * Delete user from application
+   * @param {string} userId Delete user ID
+   * @returns {Promise<User>}
+   */
   async deleteUser(userId: string): Promise<User> {
     const deletedUser = await this.userModel.findByIdAndDelete(userId);
     if (!deletedUser) {
@@ -41,10 +55,19 @@ export class UserService {
     return deletedUser;
   }
 
+  /**
+   * Delete user by email
+   * @param {string} email User's email
+   */
   async deleteUserByEmail(email: string) {
     await this.userModel.findOneAndRemove({ emailAddress: email });
   }
 
+  /**
+   * Get single user based on ID
+   * @param {string} userId User ID
+   * @returns {Promise<User>}
+   */
   async getUser(userId: string): Promise<User> {
     const singleUser = await this.userModel.findById(userId);
     if (!singleUser) {
@@ -55,6 +78,11 @@ export class UserService {
     return singleUser;
   }
 
+  /**
+   * Get user by email
+   * @param {string} email User email
+   * @returns {Promise<User>}
+   */
   async getUserByEmail(email: string): Promise<User> {
     const singleUser = await this.userModel.findOne({
       emailAddress: email,

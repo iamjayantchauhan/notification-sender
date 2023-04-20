@@ -17,11 +17,22 @@ export class NotificationService {
     private notificationModel: Model<Notification>
   ) {}
 
+  /**
+   * Get all notifications
+   * @returns {Promise<Notification[]>} Notification list
+   */
   async getNotifications(): Promise<Notification[]> {
     return this.notificationModel.find();
   }
 
-  async createNotification(notificationDTO: NotificationDTO) {
+  /**
+   * Create notification
+   * @param {NotificationDTO} notificationDTO
+   * @returns {Promise<Notification>}
+   */
+  async createNotification(
+    notificationDTO: NotificationDTO
+  ): Promise<Notification> {
     const notificationModel = new this.notificationModel({
       emailAddress: notificationDTO.email,
       notifications: notificationDTO.notifications,
@@ -30,10 +41,18 @@ export class NotificationService {
     return notificationModel.save();
   }
 
+  /**
+   * Delete notification
+   * @param {string} email Email address
+   */
   async deleteNotification(email: string) {
     await this.notificationModel.findOneAndRemove({ emailAddress: email });
   }
 
+  /**
+   * Send email to user
+   * @param {NotificationDTO} notificationDTO Notification DTO
+   */
   private async sendEmail(notificationDTO: NotificationDTO) {
     const sendInBlueApiUrl = this.config.get("send_in_blue.api_url");
     const senderName = this.config.get("send_in_blue.sender_name");

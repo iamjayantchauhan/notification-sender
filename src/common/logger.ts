@@ -7,7 +7,6 @@ import * as CloudWatchTransport from "winston-cloudwatch";
 
 dotenv.config();
 
-// define the custom settings for each transport (file, console)
 const options = {
   errorFile: {
     level: "error",

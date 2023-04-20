@@ -10,6 +10,10 @@ export class AppService {
     private readonly config: ConfigService
   ) {}
 
+  /**
+   * Retrieve API version
+   * @returns {string} API version
+   */
   getVersion(): string {
     return this.config.get("api_version");
   }
