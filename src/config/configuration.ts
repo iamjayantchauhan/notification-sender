@@ -12,4 +12,10 @@ export default () => ({
     secret_key: process.env.AWS_SECRET_ACCESS_KEY,
     region: process.env.AWS_REGION,
   },
+  send_in_blue: {
+    api_url: process.env.SEND_IN_BLUE_API_URL,
+    sender_api_key: process.env.SEND_IN_BLUE_API_KEY,
+    sender_name: process.env.SENDER_NAME,
+    sender_email: process.env.SENDER_EMAIL,
+  },
 });
