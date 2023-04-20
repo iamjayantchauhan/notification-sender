@@ -10,14 +10,16 @@
         "tags": ["Version"]
       }
     },
-    "/notification": {
+    "/messages": {
       "get": {
         "operationId": "NotificationController_getNotifications",
         "summary": "Retrieve list of notifications",
         "parameters": [],
         "responses": { "401": { "description": "Unauthorized" } },
         "tags": ["Notification"]
-      },
+      }
+    },
+    "/add-notification": {
       "post": {
         "operationId": "NotificationController_createNotification",
         "summary": "Create notification",
