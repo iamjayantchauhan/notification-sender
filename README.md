@@ -16,6 +16,14 @@ This project is intended to send notifications to users, We can create as many n
 $ npm install
 ```
 
+## API Docs
+
+You will find all the API docs
+
+[Postman Collection](https://www.postman.com/solar-equinox-504115/workspace/public/collection/11445188-f84b7607-81f9-42d0-8bec-8150b7ff7bbe?action=share&creator=11445188)
+Swagger API Docs
+`http://localhost:3000/api/docs`
+
 ## Running the app
 
 ```bash
